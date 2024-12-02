@@ -1,0 +1,30 @@
+.registerForm{
+    width: 300px;
+    padding: 10px 30px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.registerForm h2{
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.registerForm h3{
+    font-size: 15px;
+    margin-bottom: 25px;
+    color: #969696;
+}
+
+.registerForm div{
+    width: 100%;
+}
+
+.registerForm a{
+    color: #1f1fc7;
+}
