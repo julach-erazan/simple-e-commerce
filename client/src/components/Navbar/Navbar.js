@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoNotificationsOutline } from "react-icons/io5";
-import { LuUser2 } from "react-icons/lu";
-import { GrShop } from "react-icons/gr";
-import { MdMenu } from "react-icons/md";
-import { IoCloseSharp } from "react-icons/io5";
+import { MenuOutlined, CloseOutlined, SearchOutlined, BellOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
 const Navbar = (props) => {
   const [onSearch, setOnSearch] = useState(false);
@@ -74,8 +69,8 @@ const Navbar = (props) => {
 
   return (
     <nav
-      className={`navbar w-full min-w-[350px] h-[50px] lg:h-[70px] flex justify-start lg:justify-center items-center pl-[10px] ${
-        props.scrollPosition >= 45
+      className={`navbar w-full min-w-[350px] h-[50px] lg:h-[70px] bg-black flex justify-start lg:justify-center items-center pl-[10px] ${
+        props.scrollPosition >= 0
           ? "fixed top-0 bg-[#fff] drop-shadow z-10"
           : " absolute z-10"
       } ${
@@ -88,12 +83,12 @@ const Navbar = (props) => {
         `}
         onClick={handleNav}
       >
-        <MdMenu className="text-[40px]" />
+      <MenuOutlined className="text-[30px]"/>
       </button>
       <div className="w-full lg:h-[70px] flex justify-evenly items-center">
         <div className="w-[70%] min-w-[90px] lg:w-[15%] h-[50px] flex justify-center items-center">
           <a href="/">
-            <h1 className="text-[25px] font-bold">THE SEVEN</h1>
+            <h1 className="text-[25px] font-bold">THE FASHION</h1>
           </a>
         </div>
         <div
@@ -107,7 +102,7 @@ const Navbar = (props) => {
         >
           <div className="w-full h-[100px] flex justify-end items-center lg:hidden bg-[#f4f4f4] pr-[20px]">
             <button onClick={handleClose}>
-              <IoCloseSharp className="text-[40px] text-[#ff0000]" />
+              <CloseOutlined className="text-[30px] text-[#ff0000]"/>
             </button>
           </div>
           <div className="w-full h-full flex flex-wrap-reverse lg:flex-nowrap justify-center items-center">
@@ -153,19 +148,19 @@ const Navbar = (props) => {
             className="w-[50px] h-[50px] hidden lg:flex justify-center items-center"
             onClick={handleSearch}
           >
-            <IoSearchOutline />
+            <SearchOutlined />
           </button>
 
           <a
             href="#"
             className="w-[50px] h-[50px] flex justify-center items-center"
           >
-            <IoNotificationsOutline />
+            <BellOutlined />
           </a>
 
           <button className="w-[50px] h-[50px] flex justify-center items-center">
             <a href="/login?data=1">
-              <LuUser2 />
+              <UserOutlined />
             </a>
           </button>
 
@@ -176,7 +171,7 @@ const Navbar = (props) => {
             <div className="w-[16px] h-[16px] rounded-[50%] bg-[#E4552D] text-[#fff] text-[10px] flex justify-center items-center relative top-[-5px] left-[30px]">
               <h1>{count}</h1>
             </div>
-            <GrShop />
+            <ShoppingCartOutlined />
           </a>
         </div>
       </div>

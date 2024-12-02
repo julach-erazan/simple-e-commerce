@@ -1,9 +1,5 @@
 import React from "react";
-import { CiFacebook } from "react-icons/ci";
-import { PiInstagramLogo } from "react-icons/pi";
-import { SlSocialYoutube } from "react-icons/sl";
-import { ImPinterest2 } from "react-icons/im";
-import { AiOutlineMail } from "react-icons/ai";
+import {FacebookOutlined, InstagramOutlined, XOutlined, MailOutlined} from '@ant-design/icons';
 
 const Footer = () => {
   const handleNewsLetter = (e) => {
@@ -18,16 +14,13 @@ const Footer = () => {
         <h1 className="text-[18px] font-semibold mt-[20px]">Follow us!</h1>
         <div className="max-w-[200px] text-[30px] font-semibold mt-[20px] flex justify-between flex-wrap">
           <a href="#">
-            <CiFacebook className="m-[5px]" />
+          <FacebookOutlined className="m-[5px]"/>
           </a>
           <a href="#">
-            <PiInstagramLogo className="m-[5px]" />
+            <InstagramOutlined className="m-[5px]" />
           </a>
           <a href="#">
-            <SlSocialYoutube className="m-[5px]" />
-          </a>
-          <a href="#">
-            <ImPinterest2 className="text-[25px] m-[5px]" />
+            <XOutlined className="m-[5px]"/>
           </a>
         </div>
       </div>
@@ -88,11 +81,11 @@ const Footer = () => {
             type="email"
             name=""
             id=""
-            className="w-full bg-[#ffffff00] border-none focus:border-none m-0"
-            placeholder="My e-mail"
+            className="w-full bg-[#ffffff00] border-none focus:border-none m-0 pl-[10px]"
+            placeholder="your email"
           />
           <button className="w-[40px] h-[40px]" type="submit">
-            <AiOutlineMail className="text-[25px]" />
+            <MailOutlined className="text-[25px]"/>
           </button>
         </form>
       </div>
