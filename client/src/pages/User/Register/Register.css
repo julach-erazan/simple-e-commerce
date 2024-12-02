@@ -1,0 +1,26 @@
+.registerPage{
+    width: 100vw;
+    height: 100vh;
+    background-color: #ddf0f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerWrapper{
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.registerImage_div{
+    width: 300px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #82cefa;
+}
+

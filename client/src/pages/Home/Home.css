@@ -1,0 +1,12 @@
+.home{
+    width: 100vw;
+    background-color: #ddf0f7;
+    padding: 70px 10px 0 10px;
+}
+
+.productsList{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
