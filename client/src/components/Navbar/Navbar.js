@@ -38,16 +38,6 @@ const Navbar = () => {
     }
   };
 
-  const searchRoute = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    const searchKey = formData.get("search");
-
-    window.location = `/search?key=${searchKey}&data=1`;
-  };
-
   const handleCartCount = () => {
     if (sessionStorage.getItem("cart")) {
       const cart = JSON.parse(sessionStorage.getItem("cart"));
@@ -114,7 +104,6 @@ const Navbar = () => {
               ))}
             </ul>
             <form
-              onSubmit={searchRoute}
               className={`h-[40px] flex justify-evenly items-center border-[1px] border-solid border-[#2f3c7e] bg-white ${
                 onSearch || showNav ? "visible" : "hidden"
               } ${showNav ? "w-[50%]" : "w-[200px]"}`}
