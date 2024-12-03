@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../../components/Footer/Footer";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
+import './Home.css';
 
 const Home = () => {
   return (

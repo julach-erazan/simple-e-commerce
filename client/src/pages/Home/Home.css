@@ -1,0 +1,8 @@
+.banner {
+    background-image: url("../../assests/images/two-women-shopping-by-market-with-shopping-cart.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #dbdbdb;
+    margin-top: 70px;
+  }

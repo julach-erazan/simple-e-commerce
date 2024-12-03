@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MenuOutlined, CloseOutlined, SearchOutlined, BellOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
-const Navbar = (props) => {
+const Navbar = () => {
   const [onSearch, setOnSearch] = useState(false);
   const [count, setCount] = useState(0);
   const [showNav, setShowNav] = useState(false);
@@ -13,19 +13,19 @@ const Navbar = (props) => {
   const Links = [
     {
       name: "NEW ARRIVALS",
-      link: "/newarrivals?data=1",
+      link: "/newarrivals",
     },
     {
       name: "T-SHIRTS",
-      link: "/tshirts?data=1",
+      link: "/tshirts",
     },
     {
       name: "CLOTHS",
-      link: "/cloths?data=1",
+      link: "/cloths",
     },
     {
       name: "JEVELERY",
-      link: "/jewelery?data=1",
+      link: "/jewelery",
     },
   ];
 
@@ -69,13 +69,7 @@ const Navbar = (props) => {
 
   return (
     <nav
-      className={`navbar w-full min-w-[350px] h-[50px] lg:h-[70px] bg-black flex justify-start lg:justify-center items-center pl-[10px] ${
-        props.scrollPosition >= 0
-          ? "fixed top-0 bg-[#fff] drop-shadow z-10"
-          : " absolute z-10"
-      } ${
-        data || props.scrollPosition >= 45 ? "text-[#2F3C7E]" : "text-[#fff]"
-      }`}
+      className="navbar w-full min-w-[350px] h-[50px] lg:h-[70px] flex justify-start lg:justify-center items-center pl-[10px] fixed top-0 bg-[#fff] text-[#2F3C7E] drop-shadow z-10"
     >
       <button
         className={`w-[40px] h-[40px] visible lg:hidden
@@ -88,7 +82,7 @@ const Navbar = (props) => {
       <div className="w-full lg:h-[70px] flex justify-evenly items-center">
         <div className="w-[70%] min-w-[90px] lg:w-[15%] h-[50px] flex justify-center items-center">
           <a href="/">
-            <h1 className="text-[25px] font-bold">THE FASHION</h1>
+            <h1 className="text-[25px] font-bold">THE GIRLS</h1>
           </a>
         </div>
         <div

@@ -1,6 +1,6 @@
 
 import Footer from "../../../components/Footer/Footer";
-import LoginForm from "../../../components/LoginForm/LoginForm";
+import LoginForm from "../../../components/User/LoginForm/LoginForm";
 
 const Login = () => {
   
