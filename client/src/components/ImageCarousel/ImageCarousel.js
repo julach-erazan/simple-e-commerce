@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductCard from "../ProductCard/ProductCard";
 
-const ImageCarousel = () => {
+const ImageCarousel = (props) => {
   const [products, setProducts] = useState([]);
   const currencySymbol = sessionStorage.getItem("currencySymbol");
 
@@ -54,7 +54,7 @@ const ImageCarousel = () => {
     <div>
       <ul className="min-w-[1000px] w-full pl-[7%]">
         <Slider {...settings}>
-          {products.map((data) => (
+          {props.productList.map((data) => (
             <li key={data.id} className="w-[300px] h-[400px]">
               <ProductCard data={data}/>
             </li>
