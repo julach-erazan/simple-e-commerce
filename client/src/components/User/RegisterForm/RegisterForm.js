@@ -81,7 +81,7 @@ const RegisterForm = () => {
       </h1>
       <h2 className="text-[15px] text-[#E4552D] text-center font-semibold mb-[20px]">
         <u>
-          <a href="/login?data=1">Already have an account? Log in instead!</a>
+          <a className="cursor-pointer" onClick={() => navigate("/login")}>Already have an account? Log in instead!</a>
         </u>
       </h2>
 

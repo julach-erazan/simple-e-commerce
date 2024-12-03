@@ -3,6 +3,8 @@ import { useState } from "react";
 import "../User.css";
 import { useNavigate } from "react-router-dom";
 import { loginUserAction } from "../../../redux/actions/authActions";
+import { notificationType, openNotification } from "../../../redux/slices/notificationSlice";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
   const [loginForm, setLoginForm] = useState({
@@ -11,10 +13,20 @@ const LoginForm = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    loginUserAction(loginForm);
+    try {
+      await loginUserAction(loginForm); 
+    }
+    catch (e) {
+      dispatch(openNotification({
+        type: notificationType.ERROR,
+        message: "Login Error",
+        description: "Username or password should be invalid!"
+      }))
+    }
   };
 
   const handleChange = (event) => {
@@ -33,7 +45,7 @@ const LoginForm = () => {
         </h1>
         <h2 className="text-[15px] text-[#E4552D] text-center font-semibold mb-[20px]">
           <u>
-            <a onClick={() => navigate("/register")}>
+            <a className="cursor-pointer" onClick={() => navigate("/register")}>
               No account? Create one here
             </a>
           </u>
