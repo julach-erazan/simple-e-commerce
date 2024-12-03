@@ -8,6 +8,7 @@ import Navbar from './components/Navbar/Navbar';
 import ViewItem from './pages/ViewItem/ViewItem';
 import NotFound from './pages/NotFound/NotFound';
 import Cart from './pages/Cart/Cart';
+import Newarrivals from "./pages/NewArrivals/NewArrivals";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/newarrivals" element={<Newarrivals/>} />
           <Route path="/ViewItem" element={<ViewItem/>} />
           <Route path="/Cart" element={<Cart/>} />
           <Route path="*" element={<NotFound />} />
