@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../components/Footer/Footer";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import './Home.css';
+import "./Home.css";
+import bag from "../../assests/images/bag2.jpg";
 
 const Home = () => {
+  const [productList] = useState([
+    {
+      id: "1",
+      name: "Black Color School Bag",
+      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+      price: "2700",
+      imageURL: bag,
+    },
+    {
+      id: "2",
+      name: "Black Color School Bag",
+      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+      price: "2800",
+      imageURL: bag,
+    },
+    {
+      id: "3",
+      name: "Black Color School Bag",
+      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+      price: "2900",
+      imageURL: bag,
+    },
+    {
+      id: "4",
+      name: "Black Color School Bag",
+      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+      price: "3000",
+      imageURL: bag,
+    },
+  ]);
+
   return (
     <div className="w-full">
       <div className="banner w-full min-w-[350px] h-[600px] flex justify-end items-center">
@@ -24,10 +56,10 @@ const Home = () => {
           New arrivals
         </h1>
         <div className="w-full min-w-[350px] h-[400px] mt-[25px] overflow-hidden">
-          <ImageCarousel />
+          <ImageCarousel productList={productList} />
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
