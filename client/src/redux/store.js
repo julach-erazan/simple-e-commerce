@@ -1,12 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import notification from "./slices/notificationSlice";
-import products from "./slices/productSlice";
+import reducer from "./reducer";
 
 const store = configureStore({
-  reducer: {
-    notification,
-    products,
-  },
+  reducer,
 });
 
 export default store;

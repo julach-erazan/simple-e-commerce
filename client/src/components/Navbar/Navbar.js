@@ -1,14 +1,23 @@
 import React, { useState } from "react";
-import { MenuOutlined, CloseOutlined, SearchOutlined, BellOutlined, UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import {
+  MenuOutlined,
+  CloseOutlined,
+  SearchOutlined,
+  BellOutlined,
+  UserOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [onSearch, setOnSearch] = useState(false);
-  const [count, setCount] = useState(0);
   const [showNav, setShowNav] = useState(false);
+  const navigate = useNavigate();
+  const { itemCount } = useSelector((state) => state.cart);
 
-  var queryString = window.location.search;
-  var queryParams = new URLSearchParams(queryString);
-  var data = queryParams.get("data");
+  // var queryString = window.location.search;
+  // var queryParams = new URLSearchParams(queryString);
 
   const Links = [
     {
@@ -38,15 +47,6 @@ const Navbar = () => {
     }
   };
 
-  const handleCartCount = () => {
-    if (sessionStorage.getItem("cart")) {
-      const cart = JSON.parse(sessionStorage.getItem("cart"));
-      setCount(cart.length);
-    }
-  };
-
-  setInterval(handleCartCount);
-
   //Show Nav
   const handleNav = () => {
     setShowNav(!showNav);
@@ -58,22 +58,20 @@ const Navbar = () => {
   };
 
   return (
-    <nav
-      className="navbar w-full min-w-[350px] h-[50px] lg:h-[70px] flex justify-start lg:justify-center items-center pl-[10px] fixed top-0 bg-[#fff] text-[#2F3C7E] drop-shadow z-10"
-    >
+    <nav className="navbar w-full min-w-[350px] h-[50px] lg:h-[70px] flex justify-start lg:justify-center items-center pl-[10px] fixed top-0 bg-[#fff] text-[#2F3C7E] drop-shadow z-10">
       <button
         className={`w-[40px] h-[40px] visible lg:hidden
         ${showNav ? "hidden" : "flex"}
         `}
         onClick={handleNav}
       >
-      <MenuOutlined className="text-[30px]"/>
+        <MenuOutlined className="text-[30px]" />
       </button>
       <div className="w-full lg:h-[70px] flex justify-evenly items-center">
         <div className="w-[70%] min-w-[90px] lg:w-[15%] h-[50px] flex justify-center items-center">
-          <a href="/">
+          <div onClick={() => navigate("/")}>
             <h1 className="text-[25px] font-bold">THE GIRLS</h1>
-          </a>
+          </div>
         </div>
         <div
           className={`lg:w-[60%] lg:h-[50px] lg:mx-[10px] lg:flex flex-col lg:flex-row justify-center items-center lg:relative lg:bg-[#00000000]
@@ -86,20 +84,20 @@ const Navbar = () => {
         >
           <div className="w-full h-[100px] flex justify-end items-center lg:hidden bg-[#f4f4f4] pr-[20px]">
             <button onClick={handleClose}>
-              <CloseOutlined className="text-[30px] text-[#ff0000]"/>
+              <CloseOutlined className="text-[30px] text-[#ff0000]" />
             </button>
           </div>
           <div className="w-full h-full flex flex-wrap-reverse lg:flex-nowrap justify-center items-center">
             <ul className="w-full lg:w-[80%] h-[80%] flex flex-col lg:flex-row justify-evenly items-center">
               {Links.map((data) => (
                 <li key={data.name}>
-                  <a href={data.link}>
+                  <div onClick={() => navigate(data.link)}>
                     <h1
                       className={`font-semibold hover:text-[#E4552D] mx-[10px]`}
                     >
                       {data.name}
                     </h1>
-                  </a>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -134,28 +132,25 @@ const Navbar = () => {
             <SearchOutlined />
           </button>
 
-          <a
-            href="#"
-            className="w-[50px] h-[50px] flex justify-center items-center"
-          >
+          <p className="w-[50px] h-[50px] flex justify-center items-center cursor-pointer">
             <BellOutlined />
-          </a>
+          </p>
 
           <button className="w-[50px] h-[50px] flex justify-center items-center">
-            <a href="/login?data=1">
+            <div onClick={() => navigate("/login")}>
               <UserOutlined />
-            </a>
+            </div>
           </button>
 
-          <a
-            href="/cart?data=1"
+          <div
+            onClick={() => navigate("/cart")}
             className="w-[50px] h-[50px] flex justify-center items-center pr-[12px]"
           >
             <div className="w-[16px] h-[16px] rounded-[50%] bg-[#E4552D] text-[#fff] text-[10px] flex justify-center items-center relative top-[-5px] left-[30px]">
-              <h1>{count}</h1>
+              <h1>{itemCount}</h1>
             </div>
             <ShoppingCartOutlined />
-          </a>
+          </div>
         </div>
       </div>
     </nav>
