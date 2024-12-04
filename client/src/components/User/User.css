@@ -1,7 +1,7 @@
 input {
     height: 40px;
     border: 1px solid #cadcfc;
-    margin: 5px 0 15px 0;
+    margin: 5px 0 2px 0;
     padding: 5px 10px;
   }
   
@@ -19,3 +19,4 @@ input {
     font-weight: 600;
     color: #000000d0;
   }
+
