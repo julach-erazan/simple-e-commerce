@@ -125,6 +125,17 @@ const RegisterForm = () => {
         value={registerForm.password}
         onChange={handleChange}
       />
+      
+      <label htmlFor="conf-password" className="text-left">
+        Confirm Password
+      </label>
+      <input
+        type="password"
+        id="password"
+        name="conf-password"
+      />
+
+
 
       <h2 className="text-[15px] text-[#2f3c7e] font-bold">
         <input
