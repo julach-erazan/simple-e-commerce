@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import girlsImg from '../../assests/images/girl.jpg'
 import ProductCard from "../../components/ProductCard/ProductCard";
-import bag from '../../assests/images/bag2.jpg'
 import { useDispatch, useSelector } from "react-redux";
 import { loadProductListAction } from "../../redux/actions/productActions";
 import { resetProductList } from "../../redux/slices/productSlice";
+import Footer from '../../components/Footer/Footer'
 
 const Newarrivals = () => {
-  // TODO: IMAGE SHOULD BE A URL
   
   const productState = useSelector(state => state.products);
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const Newarrivals = () => {
           </li>
         ))}
       </ul>
-      
+      <Footer/>
     </div>
   );
 };

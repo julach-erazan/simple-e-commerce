@@ -1,58 +1,54 @@
-import React, { useState } from "react";
+import React from "react";
 import "../User.css";
-import { registerUser } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
-import {
-  notificationType,
-  openNotification,
-} from "../../../redux/slices/notificationSlice";
 import { useDispatch } from "react-redux";
-
-const initialState = {
-  userName: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-}
+import { notificationType, openNotification } from "../../../redux/slices/notificationSlice";
+import { useFormik } from "formik";
+import { formSchema } from "../../../Schemas/RegistationSchema";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const RegisterForm = () => {
-  const [registerForm, setRegisterForm] = useState(initialState);
-  const [isAgreed, setIsAgreed] = useState(false);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setRegisterForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isAgreed) {
-      await registerUser(registerForm)
-        .then((_) => {
-          navigate("/login");
-          openRegistrationMessage("Successfully saved user details", false);
-        })
-        .catch((e) => {
-          openRegistrationMessage("An unknown error occured while saviing user details");
-        });
-    } else openRegistrationMessage("You must agree with the terms and conditions!");
-  };
-  
-  const openRegistrationMessage = (description, isError = true) => {
-    dispatch(openNotification({
-      type: notificationType.ERROR,
-      message: "Registration " + isError ? "Unsuccessful" : "Successful",
-      description
-    }))
-  }
+  // Initialize Formik
+  const formik = useFormik({
+    initialValues: {
+      userName: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: formSchema, // Use Yup schema for validation
+    onSubmit: async (values) => {
+      try {
+        // Simulate API call to register user
+        console.log("Registering user with values:", values);
+        dispatch(
+          openNotification({
+            type: notificationType.SUCCESS,
+            message: "Registration Successful",
+            description: "Successfully saved user details",
+          })
+        );
+        navigate("/login");
+      } catch (error) {
+        dispatch(
+          openNotification({
+            type: notificationType.ERROR,
+            message: "Registration Unsuccessful",
+            description: "An error occurred while saving user details",
+          })
+        );
+      }
+    },
+  });
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={formik.handleSubmit}
       id="registerForm"
       className="w-[90%] md:w-[400px] flex flex-col"
     >
@@ -67,26 +63,39 @@ const RegisterForm = () => {
         </u>
       </h2>
 
-      <label htmlFor="firstName" className="text-left">
+      {/* Username */}
+      <label htmlFor="userName" className="text-left">
         Username
       </label>
       <input
         type="text"
+        id="userName"
         name="userName"
-        value={registerForm.userName}
-        onChange={handleChange}
+        value={formik.values.userName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
+      {formik.touched.userName && formik.errors.userName ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.userName}</div>
+      ) : null}
 
+      {/* First Name */}
       <label htmlFor="firstName" className="text-left">
         First name
       </label>
       <input
         type="text"
+        id="firstName"
         name="firstName"
-        value={registerForm.firstName}
-        onChange={handleChange}
+        value={formik.values.firstName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
+      {formik.touched.firstName && formik.errors.firstName ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.firstName}</div>
+      ) : null}
 
+      {/* Last Name */}
       <label htmlFor="lastName" className="text-left">
         Last name
       </label>
@@ -94,10 +103,15 @@ const RegisterForm = () => {
         type="text"
         id="lastName"
         name="lastName"
-        value={registerForm.lastName}
-        onChange={handleChange}
+        value={formik.values.lastName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
+      {formik.touched.lastName && formik.errors.lastName ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.lastName}</div>
+      ) : null}
 
+      {/* Email */}
       <label htmlFor="email" className="text-left">
         Email
       </label>
@@ -105,10 +119,15 @@ const RegisterForm = () => {
         type="email"
         id="email"
         name="email"
-        value={registerForm.email}
-        onChange={handleChange}
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
+      {formik.touched.email && formik.errors.email ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.email}</div>
+      ) : null}
 
+      {/* Password */}
       <label htmlFor="password" className="text-left">
         Password
       </label>
@@ -116,16 +135,38 @@ const RegisterForm = () => {
         type="password"
         id="password"
         name="password"
-        value={registerForm.password}
-        onChange={handleChange}
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       />
+      {formik.touched.password && formik.errors.password ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.password}</div>
+      ) : null}
 
+      {/* Confirm Password */}
+      <label htmlFor="confirmPassword" className="text-left">
+        Confirm Password
+      </label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        value={formik.values.confirmPassword}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.confirmPassword}</div>
+      ) : null}
+
+      {/* Terms and Conditions */}
       <h2 className="text-[15px] text-[#2f3c7e] font-bold">
         <input
           type="checkbox"
           className="h-[15px] m-0 mr-[10px] text-[15px]"
-          checked={isAgreed}
-          onChange={(e) => setIsAgreed(e.target.checked)}
+          name="isAgreed"
+          checked={formik.values.isAgreed}
+          onChange={formik.handleChange}
         />
         I agree to The Nines{" "}
         <a href="#" className="hover:text-[#E4552D] hover:underline">
@@ -137,6 +178,9 @@ const RegisterForm = () => {
         </a>
         .
       </h2>
+      {formik.touched.isAgreed && formik.errors.isAgreed ? (
+        <div className="error pb-[5px] text-[#ed4337] text-[13px]"><ExclamationCircleOutlined /> {formik.errors.isAgreed}</div>
+      ) : null}
 
       <button
         className="h-[40px] text-[#fff] font-semibold bg-[#2F3C7E] hover:bg-[#E4552D] mt-[50px]"

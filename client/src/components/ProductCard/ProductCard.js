@@ -9,7 +9,7 @@ const ProductCard = (props) => {
           <img
             src={props.data.imageURL}
             alt="produccts"
-            className="w-[280px] h-[280px] object-cover"
+            className="w-[280px] h-[280px] center"
           />
           <div className="w-full h-[90px] flex justify-between items-center p-[10px]">
             <div className="w-[70%] h-full text-[#2F3C7E] flex flex-col justify-center items-center">

@@ -5,20 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import ProductCard from "../ProductCard/ProductCard";
 
 const ImageCarousel = (props) => {
-  const [products, setProducts] = useState([]);
   const currencySymbol = sessionStorage.getItem("currencySymbol");
-
-  const getProducts = () => {
-    fetch("https://fakestoreapi.com/products/category/women's clothing")
-      .then((res) => res.json())
-      .then((json) => {
-        setProducts(json);
-      });
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   function NextArrow(props) {
     const { className, style, onClick } = props;

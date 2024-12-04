@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import Footer from "../../components/Footer/Footer";
 
 const Cart = () => {
@@ -8,51 +8,66 @@ const Cart = () => {
   const [itemPrice, setItemPrice] = useState(0);
   const [vat, setVat] = useState(0);
 
-  const [totalCount, setTotalCount] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  const currencySymbol = sessionStorage.getItem("currencySymbol");
-
-  useEffect(() => {
-    setItemCount(totalCount);
-    setItemPrice(totalPrice.toFixed(2));
-    if (totalPrice != 0) {
-      setVat(totalPrice + 11.57);
-    }
-  });
-
-  //Get Items List
   const handleGetCartData = () => {
     const data = JSON.parse(sessionStorage.getItem("cart"));
-    if (data) {
+    if (data && data.length > 0) {
       setCart(data);
 
-      setTotalCount(
-        data.reduce((acc, product) => acc + parseFloat(product.count), 0)
-      ); //All items total count
+      const totalCount = data.reduce(
+        (acc, product) => acc + parseFloat(product.count),
+        0
+      );
+      const totalPrice = data.reduce(
+        (acc, product) =>
+          acc + parseFloat(product.count) * parseFloat(product.price),
+        0
+      );
 
-      setTotalPrice(
-        data.reduce(
-          (acc, product) =>
-            acc + parseFloat(product.count) * parseFloat(product.price),
-          0
-        )
-      ); //Total items price
+      setItemCount(totalCount);
+      setItemPrice(totalPrice.toFixed(2));
+      setVat((totalPrice + 11.57).toFixed(2));
+    } else {
+      setCart([]);
+      setItemCount(0);
+      setItemPrice(0);
+      setVat(0);
     }
   };
 
-  setInterval(handleGetCartData);
+  useEffect(() => {
+    handleGetCartData();
 
-  //Delete
+    const interval = setInterval(handleGetCartData, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleDelete = (index) => {
-    cart.splice(index, 1);
-    let cartData = JSON.stringify(cart);
-    sessionStorage.setItem("cart", cartData);
+    const updatedCart = [...cart];
+    updatedCart.splice(index, 1);
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    handleGetCartData();
   };
 
-  //Checkout
+  const handleIncrease = (index) => {
+    const updatedCart = [...cart];
+    updatedCart[index].count += 1;
+    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    handleGetCartData();
+  };
+
+  const handleDecrease = (index) => {
+    const updatedCart = [...cart];
+    if (updatedCart[index].count > 1) {
+      updatedCart[index].count -= 1;
+      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+      handleGetCartData();
+    }
+  };
+
   const handleCheckOut = () => {
-    //fuction
+    if (cart.length > 0) {
+      console.log("Proceeding to checkout...");
+    }
   };
 
   return (
@@ -63,7 +78,7 @@ const Cart = () => {
       <div className="w-full lg:h-[650px] flex flex-col lg:flex-row justify-center items-center">
         <div className="w-[90%] lg:w-[70%] h-full lg:px-[25px] overflow-y-scroll">
           <div className="w-full mb-[20px]">
-            {cart[0] ? (
+            {cart.length > 0 ? (
               <div className="w-full border-t-[1px] border-solid border-[#ddd]">
                 <ul>
                   {cart.map((product, index) => (
@@ -79,12 +94,23 @@ const Cart = () => {
                         <h1 className="w-[100px] lg:w-[20%] flex text-wrap px-[10px]">
                           {product.title}
                         </h1>
+                        <div className="w-[50px] lg:w-[20%] flex justify-center items-center">
+                          <button
+                            className="px-[5px] text-[#2F3C7E] font-bold"
+                            onClick={() => handleDecrease(index)}
+                          >
+                            <MinusOutlined />
+                          </button>
+                          <span>{product.count}</span>
+                          <button
+                            className="px-[5px] text-[#2F3C7E] font-bold"
+                            onClick={() => handleIncrease(index)}
+                          >
+                            <PlusOutlined />
+                          </button>
+                        </div>
                         <h1 className="w-[50px] lg:w-[20%] text-center">
-                          {product.count}
-                        </h1>
-                        <h1 className="w-[50px] lg:w-[20%] text-center">
-                          {currencySymbol}{" "}
-                          {(product.count * product.price).toFixed(2)}
+                          {(product.count * product.price).toFixed(2)} $
                         </h1>
                         <div className="w-[50px] lg:w-[20%] flex justify-center items-center">
                           <button
@@ -119,21 +145,19 @@ const Cart = () => {
             <div className="w-full flex justify-between items-center">
               <h2 className="text-[15px] font-semibold">{itemCount} items</h2>
               <h2 className="text-[15px] text-[#000] font-semibold">
-                {currencySymbol}
-                {itemPrice}
+                {itemPrice} $
               </h2>
             </div>
             <div className="w-full flex justify-between items-center border-t-[1px] border-[#ddd] pt-[10px] mb-[20px]">
               <h2 className="text-[20px] font-semibold">Total (tax incl.)</h2>
-              <h2 className="text-[20px] font-semibold">
-                {currencySymbol}
-                {vat.toFixed(2)}
-              </h2>
+              <h2 className="text-[20px] font-semibold">{vat} $</h2>
             </div>
             <button
               className={`w-full h-[45px] text-[#fff] font-semibold text-center bg-[#2F3C7E]
               ${
-                cart[0] ? "hover:bg-[#E4552D]" : "cursor-not-allowed opacity-50"
+                cart.length > 0
+                  ? "hover:bg-[#E4552D]"
+                  : "cursor-not-allowed opacity-50"
               }
               `}
               onClick={handleCheckOut}
@@ -161,7 +185,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
