@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import bag from "../../assests/images/bag2.jpg";
+import { notification } from "antd";
 
 const ViewItemCard = () => {
   const [filteredProduct, setFilteredProduct] = useState(null);
@@ -42,6 +43,13 @@ const ViewItemCard = () => {
 
   const [count, setCount] = useState(1);
 
+  const openNotificationWithIcon = (type, message, description) => {
+    notification[type]({
+      message,
+      description,
+    });
+  };
+
   // Filter product by ID on component mount
   useEffect(() => {
     const product = productList.find((product) => product.id === _id);
@@ -57,10 +65,18 @@ const ViewItemCard = () => {
 
     if (existingItemIndex !== -1) {
       oldCart[existingItemIndex] = { id, image, name, price, count };
-      alert("Updated product successfully added to your shopping cart");
+      openNotificationWithIcon(
+        'success',
+        'Updated!',
+        'Updated product successfully added to your shopping cart.'
+      );
     } else {
       oldCart.push({ id, image, name, price, count });
-      alert("Product successfully added to your shopping cart");
+      openNotificationWithIcon(
+        'success',
+        'Product Added!',
+        'Product successfully added to your shopping cart.'
+      );
     }
 
     sessionStorage.setItem("cart", JSON.stringify(oldCart));
