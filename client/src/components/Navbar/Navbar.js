@@ -68,7 +68,7 @@ const Navbar = () => {
         <MenuOutlined className="text-[30px]" />
       </button>
       <div className="w-full lg:h-[70px] flex justify-evenly items-center">
-        <div className="w-[70%] min-w-[90px] lg:w-[15%] h-[50px] flex justify-center items-center">
+        <div className="w-[70%] min-w-[90px] lg:w-[15%] h-[50px] flex justify-center items-center cursor-pointer">
           <div onClick={() => navigate("/")}>
             <h1 className="text-[25px] font-bold">THE GIRLS</h1>
           </div>
@@ -88,7 +88,7 @@ const Navbar = () => {
             </button>
           </div>
           <div className="w-full h-full flex flex-wrap-reverse lg:flex-nowrap justify-center items-center">
-            <ul className="w-full lg:w-[80%] h-[80%] flex flex-col lg:flex-row justify-evenly items-center">
+            <ul className="w-full lg:w-[80%] h-[80%] flex flex-col lg:flex-row justify-evenly items-center cursor-pointer">
               {Links.map((data) => (
                 <li key={data.name}>
                   <div onClick={() => navigate(data.link)}>
@@ -144,7 +144,7 @@ const Navbar = () => {
 
           <div
             onClick={() => navigate("/cart")}
-            className="w-[50px] h-[50px] flex justify-center items-center pr-[12px]"
+            className="w-[50px] h-[50px] flex justify-center items-center pr-[12px] cursor-pointer"
           >
             <div className="w-[16px] h-[16px] rounded-[50%] bg-[#E4552D] text-[#fff] text-[10px] flex justify-center items-center relative top-[-5px] left-[30px]">
               <h1>{itemCount}</h1>
