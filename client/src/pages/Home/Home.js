@@ -1,40 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer/Footer";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
+import { loadProductListAction } from "../../redux/actions/productActions";
+import { resetProductList } from "../../redux/slices/productSlice";
 import "./Home.css";
-import bag from "../../assests/images/bag2.jpg";
 
 const Home = () => {
-  const [productList] = useState([
-    {
-      id: "1",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2700",
-      imageURL: bag,
-    },
-    {
-      id: "2",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2800",
-      imageURL: bag,
-    },
-    {
-      id: "3",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2900",
-      imageURL: bag,
-    },
-    {
-      id: "4",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "3000",
-      imageURL: bag,
-    },
-  ]);
+
+  const productState = useSelector(state => state.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadProductListAction());
+
+    return () => {
+      dispatch(resetProductList());
+    }
+  },[])
 
   return (
     <div className="w-full">
@@ -56,7 +39,7 @@ const Home = () => {
           New arrivals
         </h1>
         <div className="w-full min-w-[350px] h-[400px] mt-[25px] overflow-hidden">
-          <ImageCarousel productList={productList} />
+          <ImageCarousel productList={productState.productList} />
         </div>
       </div>
       <Footer />

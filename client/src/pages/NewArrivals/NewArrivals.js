@@ -1,39 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import girlsImg from '../../assests/images/girl.jpg'
 import ProductCard from "../../components/ProductCard/ProductCard";
 import bag from '../../assests/images/bag2.jpg'
+import { useDispatch, useSelector } from "react-redux";
+import { loadProductListAction } from "../../redux/actions/productActions";
+import { resetProductList } from "../../redux/slices/productSlice";
 
 const Newarrivals = () => {
-  const [productList] = useState([
-    {
-      id: "1",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2700",
-      imageURL: bag,
-    },
-    {
-      id: "2",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2800",
-      imageURL: bag,
-    },
-    {
-      id: "3",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2900",
-      imageURL: bag,
-    },
-    {
-      id: "4",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "3000",
-      imageURL: bag,
-    },
-  ]);
+  // TODO: IMAGE SHOULD BE A URL
+  
+  const productState = useSelector(state => state.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(loadProductListAction());
+
+      return () => {
+        dispatch(resetProductList());
+      }
+  },[])
 
   return (
     <div className="w-full min-w-[350px] flex flex-col justify-center items-center pt-[100px]">
@@ -55,7 +40,7 @@ const Newarrivals = () => {
         </div>
       </div>
       <ul className="w-full flex justify-evenly items-center flex-wrap">
-        {productList.map((data) => (
+        {productState.productList.map((data) => (
           <li key={data.id} className="mb-[20px]">
             <ProductCard data={data}/>
           </li>
