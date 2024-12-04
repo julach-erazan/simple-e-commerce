@@ -24,7 +24,7 @@ const LoginForm = () => {
       dispatch(openNotification({
         type: notificationType.ERROR,
         message: "Login Error",
-        description: "Username or password should be invalid!"
+        description: "Username or password invalid!"
       }))
     }
   };
