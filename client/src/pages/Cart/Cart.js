@@ -11,8 +11,6 @@ const Cart = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const currencySymbol = sessionStorage.getItem("currencySymbol");
-
   useEffect(() => {
     setItemCount(totalCount);
     setItemPrice(totalPrice.toFixed(2));
@@ -83,8 +81,7 @@ const Cart = () => {
                           {product.count}
                         </h1>
                         <h1 className="w-[50px] lg:w-[20%] text-center">
-                          {currencySymbol}{" "}
-                          {(product.count * product.price).toFixed(2)}
+                          {(product.count * product.price).toFixed(2)} $
                         </h1>
                         <div className="w-[50px] lg:w-[20%] flex justify-center items-center">
                           <button
@@ -119,15 +116,13 @@ const Cart = () => {
             <div className="w-full flex justify-between items-center">
               <h2 className="text-[15px] font-semibold">{itemCount} items</h2>
               <h2 className="text-[15px] text-[#000] font-semibold">
-                {currencySymbol}
-                {itemPrice}
+                {itemPrice} $
               </h2>
             </div>
             <div className="w-full flex justify-between items-center border-t-[1px] border-[#ddd] pt-[10px] mb-[20px]">
               <h2 className="text-[20px] font-semibold">Total (tax incl.)</h2>
               <h2 className="text-[20px] font-semibold">
-                {currencySymbol}
-                {vat.toFixed(2)}
+                {vat.toFixed(2)} $
               </h2>
             </div>
             <button
