@@ -30,7 +30,8 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isAgreed) {
+
+    if (isAgreed && validForm()) {
       await registerUser(registerForm)
         .then((_) => {
           navigate("/login");
@@ -41,11 +42,16 @@ const RegisterForm = () => {
         });
     } else openRegistrationMessage("You must agree with the terms and conditions!");
   };
+
+  // TODO: validate form details
+  const validForm =() => {
+    return true;
+  }
   
   const openRegistrationMessage = (description, isError = true) => {
     dispatch(openNotification({
-      type: notificationType.ERROR,
-      message: "Registration " + isError ? "Unsuccessful" : "Successful",
+      type: isError ? notificationType.ERROR : notificationType.SUCCESS,
+      message: "Registration " + `${isError ? "Unsuccessful" : "Successful"}`,
       description
     }))
   }
