@@ -54,7 +54,7 @@ const ViewItemCard = () => {
 
     if (existingItemIndex !== -1) {
       dispatch(
-        handleProductCount({ type: productCountTypes.INCREASE, id, count })
+        handleProductCount({ type: productCountTypes.INCREASE, id, count: parseInt(count) })
       );
       openNotificationWithIcon(
         "success",
