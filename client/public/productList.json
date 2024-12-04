@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "name": "Black Color School Bag",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+        "price": "2700",
+        "imageURL": "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?cs=srgb&dl=pexels-bertellifotografia-2905238.jpg&fm=jpg"
+      },
+      {
+        "id": "2",
+        "name": "Black Color School Bag",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+        "price": "2800",
+        "imageURL": "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?cs=srgb&dl=pexels-bertellifotografia-2905238.jpg&fm=jpg"
+      },
+      {
+        "id": "3",
+        "name": "Black Color School Bag",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+        "price": "2900",
+        "imageURL": "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?cs=srgb&dl=pexels-bertellifotografia-2905238.jpg&fm=jpg"
+      },
+      {
+        "id": "4",
+        "name": "Black Color School Bag",
+        "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+        "price": "3000",
+        "imageURL": "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?cs=srgb&dl=pexels-bertellifotografia-2905238.jpg&fm=jpg"
+      }
+]

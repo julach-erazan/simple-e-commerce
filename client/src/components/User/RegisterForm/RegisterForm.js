@@ -2,55 +2,26 @@ import React, { useState } from "react";
 import "../User.css";
 import { registerUser } from "../../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
+import {
+  notificationType,
+  openNotification,
+} from "../../../redux/slices/notificationSlice";
+import { useDispatch } from "react-redux";
 
-const handleSubmit = (event) => {
-  event.preventDefault();
-
-  const formData = new FormData(event.target);
-
-  // Logging form data
-  const title = formData.get("title");
-  const firstName = formData.get("firstName");
-  const lastName = formData.get("lastName");
-  const email = formData.get("email");
-  const password = formData.get("password");
-
-  fetch("https://fakestoreapi.com/users", {
-    method: "POST",
-    body: JSON.stringify({
-      email: email,
-      password: password,
-      title: title,
-      name: {
-        firstname: firstName,
-        lastname: lastName,
-      },
-    }),
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      if (json.id === 1) {
-        alert("Registered Successfully!");
-      } else {
-        alert("Internal Server Error!");
-      }
-      //Reset form
-      document.getElementById("registerForm").reset();
-    });
-};
 const initialState = {
   userName: "",
   firstName: "",
   lastName: "",
   email: "",
   password: "",
-};
+}
 
 const RegisterForm = () => {
   const [registerForm, setRegisterForm] = useState(initialState);
   const [isAgreed, setIsAgreed] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -59,16 +30,25 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // handle error messages
-    // if (isAgreed)
-    await registerUser(registerForm)
-    .then(_ => {
-      navigate("/login");
-    })
-    .catch(e => {
-
-    })
+    if (isAgreed) {
+      await registerUser(registerForm)
+        .then((_) => {
+          navigate("/login");
+          openRegistrationMessage("Successfully saved user details", false);
+        })
+        .catch((e) => {
+          openRegistrationMessage("An unknown error occured while saviing user details");
+        });
+    } else openRegistrationMessage("You must agree with the terms and conditions!");
   };
+  
+  const openRegistrationMessage = (description, isError = true) => {
+    dispatch(openNotification({
+      type: notificationType.ERROR,
+      message: "Registration " + isError ? "Unsuccessful" : "Successful",
+      description
+    }))
+  }
 
   return (
     <form
@@ -81,7 +61,9 @@ const RegisterForm = () => {
       </h1>
       <h2 className="text-[15px] text-[#E4552D] text-center font-semibold mb-[20px]">
         <u>
-          <a className="cursor-pointer" onClick={() => navigate("/login")}>Already have an account? Log in instead!</a>
+          <a className="cursor-pointer" onClick={() => navigate("/login")}>
+            Already have an account? Log in instead!
+          </a>
         </u>
       </h2>
 
