@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from "react";
 import { notification } from "antd";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { loadProductListAction } from "../../redux/actions/productActions"; // Import your action to load products
+import {
+  addItem,
+  handleProductCount,
+  productCountTypes,
+} from "../../redux/slices/cartSlice";
 import { resetProductList } from "../../redux/slices/productSlice"; // Import your reset action
 
 const ViewItemCard = () => {
@@ -10,11 +16,10 @@ const ViewItemCard = () => {
 
   const dispatch = useDispatch();
   const productState = useSelector((state) => state.products); // Get products from Redux
+  const cartState = useSelector((state) => state.cart);
 
-  // Extract `id` from the URL query parameters
-  const queryString = window.location.search;
-  const queryParams = new URLSearchParams(queryString);
-  const _id = queryParams.get("id");
+  console.log("Cart", cartState);
+  const { id } = useParams();
 
   const openNotificationWithIcon = (type, message, description) => {
     notification[type]({
@@ -35,35 +40,35 @@ const ViewItemCard = () => {
   // Filter the product based on the id from the URL
   useEffect(() => {
     if (productState.productList.length > 0) {
-      const product = productState.productList.find((product) => product.id === _id);
+      const product = productState.productList.find(
+        (product) => product.id === id
+      );
       setFilteredProduct(product);
     }
-  }, [_id, productState.productList]);
+  }, [id, productState.productList]);
 
   const addCart = (id, image, name, price) => {
-    const oldCart = sessionStorage.getItem("cart")
-      ? JSON.parse(sessionStorage.getItem("cart"))
-      : [];
-
-    const existingItemIndex = oldCart.findIndex((item) => item.id === id);
+    const existingItemIndex = cartState.productsList.findIndex(
+      (item) => item.id === id
+    );
 
     if (existingItemIndex !== -1) {
-      oldCart[existingItemIndex] = { id, image, name, price, count };
+      dispatch(
+        handleProductCount({ type: productCountTypes.INCREASE, id, count: parseInt(count) })
+      );
       openNotificationWithIcon(
         "success",
         "Updated!",
         "Updated product successfully added to your shopping cart."
       );
     } else {
-      oldCart.push({ id, image, name, price, count });
+      dispatch(addItem({ id, image, name, price, count: parseInt(count) }));
       openNotificationWithIcon(
         "success",
         "Product Added!",
         "Product successfully added to your shopping cart."
       );
     }
-
-    sessionStorage.setItem("cart", JSON.stringify(oldCart));
   };
 
   return (
@@ -120,7 +125,9 @@ const ViewItemCard = () => {
           </div>
         </div>
       ) : (
-        <p className="text-center text-[20px] text-[#E4552D]">Product not found</p>
+        <p className="text-center text-[20px] text-[#E4552D]">
+          Product not found
+        </p>
       )}
     </div>
   );

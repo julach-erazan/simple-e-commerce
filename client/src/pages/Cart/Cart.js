@@ -1,71 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CloseOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import Footer from "../../components/Footer/Footer";
+import { useDispatch, useSelector } from "react-redux";
+import { handleProductCount, productCountTypes, removeItem } from "../../redux/slices/cartSlice";
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-  const [itemCount, setItemCount] = useState(0);
   const [itemPrice, setItemPrice] = useState(0);
+  const [itemCount, setItemCount] = useState(0);
   const [vat, setVat] = useState(0);
 
-  const handleGetCartData = () => {
-    const data = JSON.parse(sessionStorage.getItem("cart"));
-    if (data && data.length > 0) {
-      setCart(data);
+  const { productsList } = useSelector(state => state.cart);
+  const dispatch = useDispatch();
 
-      const totalCount = data.reduce(
-        (acc, product) => acc + parseFloat(product.count),
+  const configureData = useCallback(() => {
+    if (productsList && productsList.length > 0) {
+      const totalCount = productsList.reduce(
+        (acc, product) => acc + product.count,
         0
       );
-      const totalPrice = data.reduce(
+      const totalPrice = productsList.reduce(
         (acc, product) =>
-          acc + parseFloat(product.count) * parseFloat(product.price),
+          acc + product.count * product.price,
         0
       );
 
       setItemCount(totalCount);
       setItemPrice(totalPrice.toFixed(2));
-      setVat((totalPrice + 11.57).toFixed(2));
+      setVat( totalPrice !== 0 ? (totalPrice + 11.57).toFixed(2) : 0);
     } else {
-      setCart([]);
       setItemCount(0);
       setItemPrice(0);
       setVat(0);
     }
-  };
+  },[productsList])
 
   useEffect(() => {
-    handleGetCartData();
+    configureData();
+    // const interval = setInterval(configureData, 1000);
+    // return () => clearInterval(interval);
+  }, [configureData]);
 
-    const interval = setInterval(handleGetCartData, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleDelete = (index) => {
-    const updatedCart = [...cart];
-    updatedCart.splice(index, 1);
-    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    handleGetCartData();
+  const handleDelete = (id) => {
+    dispatch(removeItem(id))
+    configureData();
   };
 
-  const handleIncrease = (index) => {
-    const updatedCart = [...cart];
-    updatedCart[index].count += 1;
-    sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-    handleGetCartData();
+  const handleIncrease = (id) => {
+    dispatch(handleProductCount({type: productCountTypes.INCREASE, id}))
   };
 
-  const handleDecrease = (index) => {
-    const updatedCart = [...cart];
-    if (updatedCart[index].count > 1) {
-      updatedCart[index].count -= 1;
-      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-      handleGetCartData();
-    }
+  const handleDecrease = (id) => {
+    dispatch(handleProductCount({type: productCountTypes.DECREASE, id}))
   };
 
   const handleCheckOut = () => {
-    if (cart.length > 0) {
+    if (productsList.length > 0) {
       console.log("Proceeding to checkout...");
     }
   };
@@ -78,10 +67,10 @@ const Cart = () => {
       <div className="w-full lg:h-[650px] flex flex-col lg:flex-row justify-center items-center">
         <div className="w-[90%] lg:w-[70%] h-full lg:px-[25px] overflow-y-scroll">
           <div className="w-full mb-[20px]">
-            {cart.length > 0 ? (
+            {productsList.length > 0 ? (
               <div className="w-full border-t-[1px] border-solid border-[#ddd]">
                 <ul>
-                  {cart.map((product, index) => (
+                  {productsList.map((product, index) => (
                     <li key={index}>
                       <div className="w-full min-h-[120px] text-[12px] md:text-[15px] border-b-[1px] border-solid border-[#ddd] flex justify-evenly items-center p-[10px]">
                         <div className="w-[60px] lg:w-[20%] flex justify-center items-center">
@@ -97,14 +86,14 @@ const Cart = () => {
                         <div className="w-[50px] lg:w-[20%] flex justify-center items-center">
                           <button
                             className="px-[5px] text-[#2F3C7E] font-bold"
-                            onClick={() => handleDecrease(index)}
+                            onClick={() => handleDecrease(product.id)}
                           >
                             <MinusOutlined />
                           </button>
                           <span>{product.count}</span>
                           <button
                             className="px-[5px] text-[#2F3C7E] font-bold"
-                            onClick={() => handleIncrease(index)}
+                            onClick={() => handleIncrease(product.id)}
                           >
                             <PlusOutlined />
                           </button>
@@ -115,7 +104,7 @@ const Cart = () => {
                         <div className="w-[50px] lg:w-[20%] flex justify-center items-center">
                           <button
                             className="w-[30px] h-[30px] flex justify-center items-center"
-                            onClick={() => handleDelete(index)}
+                            onClick={() => handleDelete(product.id)}
                           >
                             <CloseOutlined />
                           </button>
@@ -155,7 +144,7 @@ const Cart = () => {
             <button
               className={`w-full h-[45px] text-[#fff] font-semibold text-center bg-[#2F3C7E]
               ${
-                cart.length > 0
+                productsList.length > 0
                   ? "hover:bg-[#E4552D]"
                   : "cursor-not-allowed opacity-50"
               }

@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
 
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <a href={`/ViewItem?id=${props.data.id}`}>
+    <div onClick={() => navigate(`/ViewItem/${props.data.id}`)}>
         <div className="w-[300px] h-[400px] flex flex-col justify-center items-center border-[5px] border-solid border-[#cacafa] hover:border-[5px] hover:border-solid hover:border-[#2F3C7E]">
           <img
             src={props.data.imageURL}
@@ -22,7 +24,6 @@ const ProductCard = (props) => {
             </h1>
           </div>
         </div>
-      </a>
     </div>
   );
 };

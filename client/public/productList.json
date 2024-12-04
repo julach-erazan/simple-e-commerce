@@ -4,27 +4,27 @@
         "name": "Handle Bag for Women",
         "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
         "price": "600",
-        "imageURL": "./Images/bag.jpg"
+        "imageURL": "/Images/bag.jpg"
       },
       {
         "id": "2",
         "name": "Long Sleeve Blouse",
         "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
         "price": "1200",
-        "imageURL": "./Images/blouse1.jpg"
+        "imageURL": "/Images/blouse1.jpg"
       },
       {
         "id": "3",
         "name": "Dark Red Color Frock",
         "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
         "price": "950",
-        "imageURL": "./Images/frock1.jpg"
+        "imageURL": "/Images/frock1.jpg"
       },
       {
         "id": "4",
         "name": "Party Casual Frock",
         "description": "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
         "price": "1300",
-        "imageURL": "./Images/frock2.png"
+        "imageURL": "/Images/frock2.png"
       }
 ]
