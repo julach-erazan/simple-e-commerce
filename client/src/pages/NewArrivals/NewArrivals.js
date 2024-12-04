@@ -4,6 +4,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { loadProductListAction } from "../../redux/actions/productActions";
 import { resetProductList } from "../../redux/slices/productSlice";
+import Footer from '../../components/Footer/Footer'
 
 const Newarrivals = () => {
   
@@ -44,7 +45,7 @@ const Newarrivals = () => {
           </li>
         ))}
       </ul>
-      
+      <Footer/>
     </div>
   );
 };
