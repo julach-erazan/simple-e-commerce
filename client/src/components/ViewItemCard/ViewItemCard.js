@@ -1,47 +1,20 @@
 import React, { useState, useEffect } from "react";
-import bag from "../../assests/images/bag2.jpg";
 import { notification } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { loadProductListAction } from "../../redux/actions/productActions"; // Import your action to load products
+import { resetProductList } from "../../redux/slices/productSlice"; // Import your reset action
 
 const ViewItemCard = () => {
   const [filteredProduct, setFilteredProduct] = useState(null);
+  const [count, setCount] = useState(1);
+
+  const dispatch = useDispatch();
+  const productState = useSelector((state) => state.products); // Get products from Redux
 
   // Extract `id` from the URL query parameters
   const queryString = window.location.search;
   const queryParams = new URLSearchParams(queryString);
   const _id = queryParams.get("id");
-
-  const [productList] = useState([
-    {
-      id: "1",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2700",
-      imageURL: bag,
-    },
-    {
-      id: "2",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2800",
-      imageURL: bag,
-    },
-    {
-      id: "3",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "2900",
-      imageURL: bag,
-    },
-    {
-      id: "4",
-      name: "Black Color School Bag",
-      description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-      price: "3000",
-      imageURL: bag,
-    },
-  ]);
-
-  const [count, setCount] = useState(1);
 
   const openNotificationWithIcon = (type, message, description) => {
     notification[type]({
@@ -50,11 +23,22 @@ const ViewItemCard = () => {
     });
   };
 
-  // Filter product by ID on component mount
+  // Fetch product list on component mount
   useEffect(() => {
-    const product = productList.find((product) => product.id === _id);
-    setFilteredProduct(product);
-  }, [_id, productList]);
+    dispatch(loadProductListAction()); // Load product list into Redux store
+
+    return () => {
+      dispatch(resetProductList()); // Reset product list when the component unmounts
+    };
+  }, [dispatch]);
+
+  // Filter the product based on the id from the URL
+  useEffect(() => {
+    if (productState.productList.length > 0) {
+      const product = productState.productList.find((product) => product.id === _id);
+      setFilteredProduct(product);
+    }
+  }, [_id, productState.productList]);
 
   const addCart = (id, image, name, price) => {
     const oldCart = sessionStorage.getItem("cart")
@@ -66,16 +50,16 @@ const ViewItemCard = () => {
     if (existingItemIndex !== -1) {
       oldCart[existingItemIndex] = { id, image, name, price, count };
       openNotificationWithIcon(
-        'success',
-        'Updated!',
-        'Updated product successfully added to your shopping cart.'
+        "success",
+        "Updated!",
+        "Updated product successfully added to your shopping cart."
       );
     } else {
       oldCart.push({ id, image, name, price, count });
       openNotificationWithIcon(
-        'success',
-        'Product Added!',
-        'Product successfully added to your shopping cart.'
+        "success",
+        "Product Added!",
+        "Product successfully added to your shopping cart."
       );
     }
 
@@ -136,9 +120,7 @@ const ViewItemCard = () => {
           </div>
         </div>
       ) : (
-        <p className="text-center text-[20px] text-[#E4552D]">
-          Product not found
-        </p>
+        <p className="text-center text-[20px] text-[#E4552D]">Product not found</p>
       )}
     </div>
   );
